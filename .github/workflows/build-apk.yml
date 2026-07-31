@@ -1,58 +1,17 @@
-name: Build Android APK
+- name: Build Debug APK
+  run: |
+    set -o pipefail
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+    if [ -f "./gradlew" ]; then
+      chmod +x ./gradlew
+      ./gradlew :app:assembleDebug --no-daemon --stacktrace --info 2>&1 | tee build.log
+    else
+      gradle :app:assembleDebug --no-daemon --stacktrace --info 2>&1 | tee build.log
+    fi
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
-
-      - name: Setup JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install Android SDK 36
-        run: |
-          sdkmanager "platforms;android-36"
-          sdkmanager "build-tools;36.0.0"
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - name: Check Gradle files
-        run: |
-          ls -la
-          ls -la gradle || true
-          ls -la gradle/wrapper || true
-
-      - name: Build Debug APK
-        run: |
-          if [ -f "./gradlew" ]; then
-            chmod +x ./gradlew
-            ./gradlew assembleDebug --stacktrace
-          else
-            gradle assembleDebug --stacktrace
-          fi
-
-      - name: Find APK
-        run: |
-          find . -type f -name "*.apk"
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: G-Creative-Piano-APK
-          path: app/build/outputs/apk/debug/*.apk
-          if-no-files-found: error
+- name: Show build error
+  if: failure()
+  run: |
+    echo "========== BUILD ERROR =========="
+    grep -n -B 10 -A 30 -E "What went wrong|Execution failed|Caused by:|error:" build.log || true
+    echo "========== END BUILD ERROR =========="
