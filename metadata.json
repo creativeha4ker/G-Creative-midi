@@ -1,0 +1,6 @@
+{
+  "name": "Concert Grand",
+  "description": "Concert Grand Piano Sound Engine & Preset Workstation featuring Steinway/Yamaha C7 tonal character, dual layer synth, split mode, velocity curves, and DSP effects.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
