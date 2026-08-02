@@ -1,4 +1,4 @@
-}plugins {
+plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.devtools.ksp)
@@ -15,8 +15,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner =
-            "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -29,9 +28,7 @@ android {
             isShrinkResources = false
 
             proguardFiles(
-                getDefaultProguardFile(
-                    "proguard-android-optimize.txt"
-                ),
+                getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
@@ -57,6 +54,7 @@ android {
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
 
+    // Compose
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material.icons.core)
     implementation(libs.androidx.compose.material.icons.extended)
@@ -65,26 +63,32 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
 
+    // Core
     implementation(libs.androidx.core.ktx)
 
+    // Lifecycle
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
+    // Navigation
     implementation(libs.androidx.navigation.compose)
 
+    // Room
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime)
 
+    // Networking
     implementation(libs.coil.compose)
-
     implementation(libs.moshi.kotlin)
     implementation(libs.okhttp)
     implementation(libs.retrofit)
 
+    // Coroutines
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
 
+    // Testing
     testImplementation(libs.junit)
     testImplementation(libs.androidx.junit)
     testImplementation(libs.kotlinx.coroutines.test)
@@ -99,5 +103,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
+    // KSP
     ksp(libs.androidx.room.compiler)
 }
